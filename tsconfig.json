@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "baseUrl": "src",
+    "paths": {
+      "@modules/user/*": ["libs/modules/user/*"],
+      "@modules/team/*": ["libs/modules/team/*"],
+      "@modules/player/*": ["libs/modules/player/*"],
+      "@modules/league/*": ["libs/modules/league/*"],
+      "@modules/entry/*": ["libs/modules/entry/*"],
+      "@modules/tournament/*": ["libs/modules/tournament/*"],
+      "@modules/leaderboard/*": ["libs/modules/leaderboard/*"],
+      "@presentation/*": ["libs/presentation/*"],
+      "@libs/shared/*": ["libs/shared/*"]
+    }
+  },
+  "include": [
+    "src"
+  ]
+}
