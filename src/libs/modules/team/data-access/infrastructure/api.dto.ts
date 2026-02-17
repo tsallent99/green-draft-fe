@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { dateBackendSchema } from '@libs/shared/backend/data-access-http-client';
 
 // Team Pick DTO
 export const teamPickCreateDtoSchema = z.object({
@@ -13,7 +14,7 @@ export const teamPickResponseDtoSchema = z.object({
   playerId: z.number(),
   playerCategory: z.number().min(1).max(5),
   playerScore: z.number(),
-  createdAt: z.string().datetime(),
+  createdAt: dateBackendSchema,
 });
 export type TeamPickResponseDtoT = z.infer<typeof teamPickResponseDtoSchema>;
 
@@ -37,7 +38,7 @@ export const teamResponseDtoSchema = z.object({
   isValid: z.boolean(),
   totalCategoryPoints: z.number(),
   picks: z.array(teamPickResponseDtoSchema),
-  createdAt: z.string().datetime(),
-  updatedAt: z.string().datetime(),
+  createdAt: dateBackendSchema,
+  updatedAt: dateBackendSchema,
 });
 export type TeamResponseDtoT = z.infer<typeof teamResponseDtoSchema>;

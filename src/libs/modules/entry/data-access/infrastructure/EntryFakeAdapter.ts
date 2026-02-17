@@ -8,8 +8,8 @@ const mockEntries: EntryT[] = [
     leagueId: 1,
     paymentStatus: PaymentStatus.PAID,
     totalScore: 0,
-    createdAt: '2024-01-01T00:00:00Z',
-    updatedAt: '2024-01-01T00:00:00Z',
+    createdAt: new Date('2024-01-01T00:00:00Z'),
+    updatedAt: new Date('2024-01-01T00:00:00Z'),
   },
 ];
 
@@ -45,7 +45,7 @@ export class EntryFakeAdapter implements EntryRepository {
       entry.totalScore = data.totalScore;
     }
 
-    entry.updatedAt = new Date().toISOString();
+    entry.updatedAt = new Date();
     mockEntries[entryIndex] = entry;
 
     return entry;

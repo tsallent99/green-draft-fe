@@ -11,11 +11,11 @@ export const tournamentSchema = z.object({
   id: z.number(),
   name: z.string(),
   location: z.string().nullable(),
-  startDate: z.string().datetime(),
-  endDate: z.string().datetime(),
+  startDate: z.date(),
+  endDate: z.date(),
   status: z.nativeEnum(TournamentStatus),
-  createdAt: z.string().datetime(),
-  updatedAt: z.string().datetime(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
 });
 
 export type TournamentT = z.infer<typeof tournamentSchema>;
@@ -39,11 +39,11 @@ export class TournamentEntity {
     return this._tournament.location;
   }
 
-  public get startDate(): string {
+  public get startDate(): Date {
     return this._tournament.startDate;
   }
 
-  public get endDate(): string {
+  public get endDate(): Date {
     return this._tournament.endDate;
   }
 
@@ -51,11 +51,11 @@ export class TournamentEntity {
     return this._tournament.status;
   }
 
-  public get createdAt(): string {
+  public get createdAt(): Date {
     return this._tournament.createdAt;
   }
 
-  public get updatedAt(): string {
+  public get updatedAt(): Date {
     return this._tournament.updatedAt;
   }
 

@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { dateBackendSchema } from '@libs/shared/backend/data-access-http-client';
 
 // Ranking Entry DTO
 export const rankingEntryDtoSchema = z.object({
@@ -20,7 +21,7 @@ export const leaderboardResponseDtoSchema = z.object({
   firstPlacePrize: z.number(),
   secondPlacePrize: z.number(),
   thirdPlacePrize: z.number(),
-  lastUpdated: z.string().datetime(),
+  lastUpdated: dateBackendSchema,
 });
 export type LeaderboardResponseDtoT = z.infer<typeof leaderboardResponseDtoSchema>;
 
@@ -34,6 +35,6 @@ export const leaderboardDetailedDtoSchema = z.object({
   secondPlacePrize: z.number(),
   thirdPlacePrize: z.number(),
   rankings: z.array(rankingEntryDtoSchema),
-  lastUpdated: z.string().datetime(),
+  lastUpdated: dateBackendSchema,
 });
 export type LeaderboardDetailedDtoT = z.infer<typeof leaderboardDetailedDtoSchema>;

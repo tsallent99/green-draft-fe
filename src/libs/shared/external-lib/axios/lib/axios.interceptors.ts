@@ -1,65 +1,65 @@
-import { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import { AxiosResponse, InternalAxiosRequestConfig } from "axios";
 
 import {
-  camelToSnakeCase,
-  convertToCamelCase,
-  convertToSnakeCase,
-} from '@libs/shared/utils/transformation';
-import { AxiosInstance } from 'axios';
+	camelToSnakeCase,
+	convertToCamelCase,
+	convertToSnakeCase,
+} from "@libs/shared/utils/transformation";
+import { AxiosInstance } from "axios";
 
 interface InterceptorsConfig {
-  transformToCamelCase?: boolean;
+	transformToCamelCase?: boolean;
 }
 
 export function registerGlobalInterceptors(
-  instance: AxiosInstance,
-  config: InterceptorsConfig = {
-    transformToCamelCase: true,
-  }
+	instance: AxiosInstance,
+	config: InterceptorsConfig = {
+		transformToCamelCase: true,
+	},
 ): void {
-  instance.interceptors.request.use(acceptReqInterceptor);
-  instance.interceptors.request.use(convertToSnakeCaseReqInterceptor);
-  if (config.transformToCamelCase) {
-    instance.interceptors.response.use(convertToCamelCaseResInterceptor);
-  }
+	instance.interceptors.request.use(acceptReqInterceptor);
+	instance.interceptors.request.use(convertToSnakeCaseReqInterceptor);
+	if (config.transformToCamelCase) {
+		instance.interceptors.response.use(convertToCamelCaseResInterceptor);
+	}
 }
 
 function acceptReqInterceptor(
-  config: InternalAxiosRequestConfig
+	config: InternalAxiosRequestConfig,
 ): InternalAxiosRequestConfig {
-  config.headers.Accept = 'application/json';
-  return config;
+	config.headers.Accept = "application/json";
+	return config;
 }
 
 function convertToSnakeCaseReqInterceptor(
-  config: InternalAxiosRequestConfig
+	config: InternalAxiosRequestConfig,
 ): InternalAxiosRequestConfig {
-  config.headers = config.headers || {};
-  if (config.headers.KeepCamelCase) {
-    delete config.headers.KeepCamelCase;
-    return config;
-  }
+	config.headers = config.headers || {};
+	if (config.headers.KeepCamelCase) {
+		delete config.headers.KeepCamelCase;
+		return config;
+	}
 
-  if (config.data instanceof FormData) {
-    const newFormData = new FormData();
-    const formData = config.data as FormData;
-    formData.forEach((value: FormDataEntryValue, key: string) => {
-      const snakeKey = camelToSnakeCase(key);
-      newFormData.append(snakeKey, value);
-    });
-    config.data = newFormData;
-    return config;
-  }
+	if (config.data instanceof FormData) {
+		const newFormData = new FormData();
+		const formData = config.data as FormData;
+		formData.forEach((value: FormDataEntryValue, key: string) => {
+			const snakeKey = camelToSnakeCase(key);
+			newFormData.append(snakeKey, value);
+		});
+		config.data = newFormData;
+		return config;
+	}
 
-  if (config.data) {
-    config.data = convertToSnakeCase(config.data);
-  }
+	if (config.data) {
+		config.data = convertToSnakeCase(config.data);
+	}
 
-  return config;
+	return config;
 }
 
 function convertToCamelCaseResInterceptor(
-  response: AxiosResponse
+	response: AxiosResponse,
 ): AxiosResponse {
-  return convertToCamelCase(response.data) as AxiosResponse;
+	return convertToCamelCase(response) as AxiosResponse;
 }

@@ -7,8 +7,8 @@ export const playerOddsSchema = z.object({
   tournamentId: z.number(),
   category: z.number().min(1).max(5),
   odds: z.number().nullable(),
-  createdAt: z.string().datetime(),
-  updatedAt: z.string().datetime(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
 });
 
 export type PlayerOddsT = z.infer<typeof playerOddsSchema>;
@@ -40,11 +40,11 @@ export class PlayerOddsEntity {
     return this._playerOdds.odds;
   }
 
-  public get createdAt(): string {
+  public get createdAt(): Date {
     return this._playerOdds.createdAt;
   }
 
-  public get updatedAt(): string {
+  public get updatedAt(): Date {
     return this._playerOdds.updatedAt;
   }
 

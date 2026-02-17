@@ -6,8 +6,8 @@ export const playerSchema = z.object({
   name: z.string(),
   country: z.string().nullable(),
   worldRanking: z.number().nullable(),
-  createdAt: z.string().datetime(),
-  updatedAt: z.string().datetime(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
 });
 
 export type PlayerT = z.infer<typeof playerSchema>;
@@ -35,11 +35,11 @@ export class PlayerEntity {
     return this._player.worldRanking;
   }
 
-  public get createdAt(): string {
+  public get createdAt(): Date {
     return this._player.createdAt;
   }
 
-  public get updatedAt(): string {
+  public get updatedAt(): Date {
     return this._player.updatedAt;
   }
 

@@ -14,7 +14,7 @@ export class TeamFakeAdapter implements TeamRepository {
       playerId: pick.playerId,
       playerCategory: pick.playerCategory,
       playerScore: 0,
-      createdAt: new Date().toISOString(),
+      createdAt: new Date(),
     }));
 
     const totalCategoryPoints = data.picks.reduce(
@@ -28,8 +28,8 @@ export class TeamFakeAdapter implements TeamRepository {
       isValid: totalCategoryPoints >= 13 && data.picks.length === 5,
       totalCategoryPoints: totalCategoryPoints,
       picks,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
     };
 
     mockTeams.push(newTeam);
@@ -67,7 +67,7 @@ export class TeamFakeAdapter implements TeamRepository {
         playerId: pick.playerId,
         playerCategory: pick.playerCategory,
         playerScore: 0,
-        createdAt: new Date().toISOString(),
+        createdAt: new Date(),
       }));
 
       const totalCategoryPoints = data.picks.reduce(
@@ -80,7 +80,7 @@ export class TeamFakeAdapter implements TeamRepository {
       team.isValid = totalCategoryPoints >= 13 && data.picks.length === 5;
     }
 
-    team.updatedAt = new Date().toISOString();
+    team.updatedAt = new Date();
     mockTeams[teamIndex] = team;
 
     return team;

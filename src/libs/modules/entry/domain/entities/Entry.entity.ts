@@ -13,8 +13,8 @@ export const entrySchema = z.object({
   leagueId: z.number(),
   paymentStatus: z.nativeEnum(PaymentStatus),
   totalScore: z.number(),
-  createdAt: z.string().datetime(),
-  updatedAt: z.string().datetime(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
 });
 
 export type EntryT = z.infer<typeof entrySchema>;
@@ -46,11 +46,11 @@ export class EntryEntity {
     return this._entry.totalScore;
   }
 
-  public get createdAt(): string {
+  public get createdAt(): Date {
     return this._entry.createdAt;
   }
 
-  public get updatedAt(): string {
+  public get updatedAt(): Date {
     return this._entry.updatedAt;
   }
 

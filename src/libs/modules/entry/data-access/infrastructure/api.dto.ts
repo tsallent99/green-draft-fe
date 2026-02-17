@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { dateBackendSchema } from '@libs/shared/backend/data-access-http-client';
 import { PaymentStatus } from '../../domain/entities';
 
 // Entry Update DTO
@@ -15,7 +16,7 @@ export const entryResponseDtoSchema = z.object({
   leagueId: z.number(),
   paymentStatus: z.nativeEnum(PaymentStatus),
   totalScore: z.number(),
-  createdAt: z.string().datetime(),
-  updatedAt: z.string().datetime(),
+  createdAt: dateBackendSchema,
+  updatedAt: dateBackendSchema,
 });
 export type EntryResponseDtoT = z.infer<typeof entryResponseDtoSchema>;

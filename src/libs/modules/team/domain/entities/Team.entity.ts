@@ -8,8 +8,8 @@ export const teamSchema = z.object({
   isValid: z.boolean(),
   totalCategoryPoints: z.number(),
   picks: z.array(teamPickSchema),
-  createdAt: z.string().datetime(),
-  updatedAt: z.string().datetime(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
 });
 
 export type TeamT = z.infer<typeof teamSchema>;
@@ -41,11 +41,11 @@ export class TeamEntity {
     return this._team.picks;
   }
 
-  public get createdAt(): string {
+  public get createdAt(): Date {
     return this._team.createdAt;
   }
 
-  public get updatedAt(): string {
+  public get updatedAt(): Date {
     return this._team.updatedAt;
   }
 

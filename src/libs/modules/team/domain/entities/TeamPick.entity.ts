@@ -7,7 +7,7 @@ export const teamPickSchema = z.object({
   playerId: z.number(),
   playerCategory: z.number().min(1).max(5),
   playerScore: z.number(),
-  createdAt: z.string().datetime(),
+  createdAt: z.date(),
 });
 
 export type TeamPickT = z.infer<typeof teamPickSchema>;
@@ -39,7 +39,7 @@ export class TeamPickEntity {
     return this._teamPick.playerScore;
   }
 
-  public get createdAt(): string {
+  public get createdAt(): Date {
     return this._teamPick.createdAt;
   }
 

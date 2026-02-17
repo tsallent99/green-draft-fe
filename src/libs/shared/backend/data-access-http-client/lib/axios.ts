@@ -7,9 +7,9 @@ import Axios, {
 function authRequestInterceptor(
   config: InternalAxiosRequestConfig
 ): InternalAxiosRequestConfig {
-  const token = CONFIG.AUTHORIZATION;
   config.headers = config.headers || {};
-  if (token && CONFIG.DEV) {
+  const token = localStorage.getItem('accessToken');
+  if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;

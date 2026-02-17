@@ -28,7 +28,7 @@ const mockLeaderboards: Record<number, LeaderboardDetailedT> = {
         prize: 150,
       },
     ],
-    lastUpdated: new Date().toISOString(),
+    lastUpdated: new Date(),
   },
 };
 
@@ -48,7 +48,7 @@ export class LeaderboardFakeAdapter implements LeaderboardRepository {
     }
 
     // Simulate refresh by updating lastUpdated
-    leaderboard.lastUpdated = new Date().toISOString();
+    leaderboard.lastUpdated = new Date();
 
     return {
       id: 1,

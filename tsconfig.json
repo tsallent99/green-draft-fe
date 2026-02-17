@@ -21,6 +21,7 @@
     "jsx": "react-jsx",
     "baseUrl": "src",
     "paths": {
+      "@/*": ["./*"],
       "@modules/user/*": ["libs/modules/user/*"],
       "@modules/team/*": ["libs/modules/team/*"],
       "@modules/player/*": ["libs/modules/player/*"],

@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { dateBackendSchema } from '@libs/shared/backend/data-access-http-client';
 import { LeagueStatus } from '../../domain/entities';
 import { PaymentStatus } from '@modules/entry/domain/entities';
 
@@ -21,8 +22,8 @@ export const leagueResponseDtoSchema = z.object({
   invitationCode: z.string(),
   status: z.nativeEnum(LeagueStatus),
   maxParticipants: z.number(),
-  createdAt: z.string().datetime(),
-  updatedAt: z.string().datetime(),
+  createdAt: dateBackendSchema,
+  updatedAt: dateBackendSchema,
 });
 export type LeagueResponseDtoT = z.infer<typeof leagueResponseDtoSchema>;
 
@@ -39,7 +40,7 @@ export const entryResponseDtoSchema = z.object({
   leagueId: z.number(),
   paymentStatus: z.nativeEnum(PaymentStatus),
   totalScore: z.number(),
-  createdAt: z.string().datetime(),
-  updatedAt: z.string().datetime(),
+  createdAt: dateBackendSchema,
+  updatedAt: dateBackendSchema,
 });
 export type EntryResponseDtoT = z.infer<typeof entryResponseDtoSchema>;

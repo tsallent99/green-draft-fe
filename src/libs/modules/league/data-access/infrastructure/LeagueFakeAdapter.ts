@@ -12,8 +12,8 @@ const mockLeagues: LeagueT[] = [
     invitationCode: 'ABC123',
     status: LeagueStatus.OPEN,
     maxParticipants: 50,
-    createdAt: '2024-01-01T00:00:00Z',
-    updatedAt: '2024-01-01T00:00:00Z',
+    createdAt: new Date('2024-01-01T00:00:00Z'),
+    updatedAt: new Date('2024-01-01T00:00:00Z'),
   },
 ];
 
@@ -24,8 +24,8 @@ const mockEntries: EntryT[] = [
     leagueId: 1,
     paymentStatus: PaymentStatus.PAID,
     totalScore: 0,
-    createdAt: '2024-01-01T00:00:00Z',
-    updatedAt: '2024-01-01T00:00:00Z',
+    createdAt: new Date('2024-01-01T00:00:00Z'),
+    updatedAt: new Date('2024-01-01T00:00:00Z'),
   },
 ];
 
@@ -44,8 +44,8 @@ export class LeagueFakeAdapter implements LeagueRepository {
       invitationCode: Math.random().toString(36).substring(7).toUpperCase(),
       status: LeagueStatus.OPEN,
       maxParticipants: data.maxParticipants ?? 50,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
     };
 
     mockLeagues.push(newLeague);
@@ -89,8 +89,8 @@ export class LeagueFakeAdapter implements LeagueRepository {
       leagueId: league.id,
       paymentStatus: PaymentStatus.PENDING,
       totalScore: 0,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
     };
 
     mockEntries.push(newEntry);

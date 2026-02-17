@@ -6,8 +6,8 @@ export const userSchema = z.object({
   email: z.string().email(),
   username: z.string(),
   fullName: z.string().nullable(),
-  createdAt: z.string().datetime(),
-  updatedAt: z.string().datetime(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
 });
 
 export type UserT = z.infer<typeof userSchema>;
@@ -35,11 +35,11 @@ export class UserEntity {
     return this._user.fullName;
   }
 
-  public get createdAt(): string {
+  public get createdAt(): Date {
     return this._user.createdAt;
   }
 
-  public get updatedAt(): string {
+  public get updatedAt(): Date {
     return this._user.updatedAt;
   }
 

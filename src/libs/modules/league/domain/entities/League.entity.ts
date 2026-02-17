@@ -17,8 +17,8 @@ export const leagueSchema = z.object({
   invitationCode: z.string(),
   status: z.nativeEnum(LeagueStatus),
   maxParticipants: z.number(),
-  createdAt: z.string().datetime(),
-  updatedAt: z.string().datetime(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
 });
 
 export type LeagueT = z.infer<typeof leagueSchema>;
@@ -62,11 +62,11 @@ export class LeagueEntity {
     return this._league.maxParticipants;
   }
 
-  public get createdAt(): string {
+  public get createdAt(): Date {
     return this._league.createdAt;
   }
 
-  public get updatedAt(): string {
+  public get updatedAt(): Date {
     return this._league.updatedAt;
   }
 

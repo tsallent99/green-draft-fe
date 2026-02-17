@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { dateBackendSchema } from '@libs/shared/backend/data-access-http-client';
 
 // Player Response DTO
 export const playerResponseDtoSchema = z.object({
@@ -6,8 +7,8 @@ export const playerResponseDtoSchema = z.object({
   name: z.string(),
   country: z.string().nullable(),
   worldRanking: z.number().nullable(),
-  createdAt: z.string().datetime(),
-  updatedAt: z.string().datetime(),
+  createdAt: dateBackendSchema,
+  updatedAt: dateBackendSchema,
 });
 export type PlayerResponseDtoT = z.infer<typeof playerResponseDtoSchema>;
 

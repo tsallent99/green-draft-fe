@@ -20,7 +20,7 @@ export const leaderboardSchema = z.object({
   firstPlacePrize: z.number(),
   secondPlacePrize: z.number(),
   thirdPlacePrize: z.number(),
-  lastUpdated: z.string().datetime(),
+  lastUpdated: z.date(),
 });
 
 export type LeaderboardT = z.infer<typeof leaderboardSchema>;
@@ -34,7 +34,7 @@ export const leaderboardDetailedSchema = z.object({
   secondPlacePrize: z.number(),
   thirdPlacePrize: z.number(),
   rankings: z.array(rankingEntrySchema),
-  lastUpdated: z.string().datetime(),
+  lastUpdated: z.date(),
 });
 
 export type LeaderboardDetailedT = z.infer<typeof leaderboardDetailedSchema>;
@@ -74,7 +74,7 @@ export class LeaderboardEntity {
     return this._leaderboard.thirdPlacePrize;
   }
 
-  public get lastUpdated(): string {
+  public get lastUpdated(): Date {
     return this._leaderboard.lastUpdated;
   }
 
@@ -133,7 +133,7 @@ export class LeaderboardDetailedEntity {
     return this._leaderboardDetailed.rankings;
   }
 
-  public get lastUpdated(): string {
+  public get lastUpdated(): Date {
     return this._leaderboardDetailed.lastUpdated;
   }
 

@@ -7,16 +7,16 @@ const mockUsers: UserT[] = [
     email: 'john@example.com',
     username: 'johndoe',
     fullName: 'John Doe',
-    createdAt: '2024-01-01T00:00:00Z',
-    updatedAt: '2024-01-01T00:00:00Z',
+    createdAt: new Date('2024-01-01T00:00:00Z'),
+    updatedAt: new Date('2024-01-01T00:00:00Z'),
   },
   {
     id: 2,
     email: 'jane@example.com',
     username: 'janedoe',
     fullName: 'Jane Doe',
-    createdAt: '2024-01-02T00:00:00Z',
-    updatedAt: '2024-01-02T00:00:00Z',
+    createdAt: new Date('2024-01-02T00:00:00Z'),
+    updatedAt: new Date('2024-01-02T00:00:00Z'),
   },
 ];
 
@@ -30,8 +30,8 @@ export class UserFakeAdapter implements UserRepository {
       email: data.email,
       username: data.username,
       fullName: data.fullName ?? null,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
     };
     mockUsers.push(newUser);
     return newUser;
