@@ -1,70 +1,142 @@
-# Getting Started with Create React App
+# Green Draft
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Fantasy golf platform where users create or join leagues, pick players for tournaments, and compete against friends based on real tournament results.
 
-## Available Scripts
+## What is Green Draft?
 
-In the project directory, you can run:
+Green Draft is a fantasy sports web application focused on golf. Users can:
 
-### `npm start`
+- **Create leagues** with custom entry fees and invite friends via invitation codes
+- **Join leagues** using an invitation code shared by a friend
+- **Make picks** — select 5 players for a tournament, constrained by a category system (total category sum must be >= 13)
+- **Track standings** — view league leaderboards with rankings, scores, and prize pool distribution
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Tech Stack
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+| Layer | Technology |
+|-------|-----------|
+| Language | TypeScript (strict mode) |
+| Framework | React 19 |
+| Build Tool | Create React App + CRACO |
+| Routing | React Router DOM 7 |
+| Server State | TanStack React Query 5 |
+| Client State | Zustand 5 |
+| Forms | React Hook Form 7 |
+| Validation | Zod 4 |
+| HTTP Client | Axios |
+| Styling | Tailwind CSS 3 |
+| UI Components | shadcn/ui (Radix UI primitives) |
+| Icons | Lucide React |
+| Notifications | Sonner |
 
-### `npm test`
+## Architecture
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The project follows **Clean Architecture** with **Domain-Driven Design (DDD)** principles, organized into independent domain modules.
 
-### `npm run build`
+### Project Structure
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
+src/
+├── components/          # Shared UI components (shadcn/ui)
+│   └── ui/              # Button, Card, Tabs, Badge, Dialog, Command, etc.
+├── lib/                 # App-level utilities (queryClient, cn helper)
+├── pages/               # Page components (one per route)
+├── routes/              # Route definitions and guards (ProtectedRoute, PublicOnlyRoute)
+└── libs/
+    ├── modules/         # Domain modules
+    │   ├── entry/
+    │   ├── leaderboard/
+    │   ├── league/
+    │   ├── player/
+    │   ├── team/
+    │   ├── tournament/
+    │   └── user/
+    ├── presentation/    # Shared presentational components (form fields)
+    └── shared/          # Cross-cutting concerns
+        ├── auth/        # Auth store (Zustand)
+        ├── backend/     # HTTP client setup (Axios)
+        ├── data-access-config/
+        ├── dependency-injection-context/
+        ├── external-lib/ # Third-party library wrappers
+        └── utils/       # Transformation utilities
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Module Structure
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Each domain module under `src/libs/modules/` follows the same structure:
 
-### `npm run eject`
+```
+module/
+├── domain/
+│   ├── entities/        # Entity classes with Zod schema validation
+│   ├── repositories/    # Repository interfaces (ports)
+│   └── value-objects/
+└── data-access/
+    ├── application/
+    │   ├── queries/     # React Query hooks (useGet*)
+    │   └── mutations/   # React Query mutation hooks (useCreate*, useUpdate*, useDelete*)
+    ├── infrastructure/
+    │   ├── api.ts       # API endpoint definitions
+    │   ├── api.dto.ts   # Data Transfer Objects
+    │   ├── apiAdapter.ts        # Real API adapter (implements repository interface)
+    │   └── FakeAdapter.ts       # Fake adapter for development/testing
+    └── dependency-injection/
+        ├── RepositoryContext.ts  # React Context for DI
+        └── useRepositoryFactory.ts  # Hook to access the repository
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Key Architectural Patterns
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- **Repository Pattern** — Domain modules define repository interfaces; infrastructure provides API adapters that implement them
+- **Dependency Injection** — Adapters are injected via React Context at app root (`ContextProvider`), making modules swappable (real API vs fake adapter)
+- **Entity Validation** — All entities validate incoming data using Zod schemas in their constructors
+- **Path Aliases** — Clean imports via `@modules/*`, `@libs/shared/*`, `@presentation/*`, `@/*`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Pages & Routes
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+| Route | Page | Auth |
+|-------|------|------|
+| `/login` | Login | Public only |
+| `/register` | Register | Public only |
+| `/` | Home | Protected |
+| `/create-league` | Create a League | Protected |
+| `/join-league` | Join a League | Protected |
+| `/your-leagues` | Your Leagues list | Protected |
+| `/your-leagues/:leagueId` | League Detail (Picks + Standings tabs) | Protected |
 
-## Learn More
+## Getting Started
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Prerequisites
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Node.js >= 18
+- npm
 
-### Code Splitting
+### Installation
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```bash
+npm install
+```
 
-### Analyzing the Bundle Size
+### Environment Variables
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Create `.env.development` with:
 
-### Making a Progressive Web App
+```
+REACT_APP_API_URL=http://localhost:3001
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Development
 
-### Advanced Configuration
+```bash
+npm start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Opens at [http://localhost:3000](http://localhost:3000).
 
-### Deployment
+### Production Build
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+```bash
+npm run build
+```
 
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Output goes to the `build/` folder.
