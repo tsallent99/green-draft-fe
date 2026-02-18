@@ -4,17 +4,21 @@ import {
 	LeagueResponseDtoT,
 	LeagueJoinDtoT,
 	EntryResponseDtoT,
+	CreateLeagueResponseDtoT,
+	JoinLeagueResponseDtoT,
 	leagueResponseDtoSchema,
+	createLeagueResponseDtoSchema,
 	entryResponseDtoSchema,
+	joinLeagueResponseDtoSchema,
 } from "./api.dto";
 import { z } from "zod";
 
 const BASE_URL = "/leagues";
 
 export const leagueApi = {
-	createLeague: async (data: LeagueCreateDtoT): Promise<LeagueResponseDtoT> => {
+	createLeague: async (data: LeagueCreateDtoT): Promise<CreateLeagueResponseDtoT> => {
 		const response = await httpClient.post(BASE_URL, data);
-		const validation = leagueResponseDtoSchema.safeParse(response.data);
+		const validation = createLeagueResponseDtoSchema.safeParse(response.data);
 		if (!validation.success) {
 			throw new Error("Invalid response from server");
 		}
@@ -41,9 +45,9 @@ export const leagueApi = {
 		return validation.data;
 	},
 
-	joinLeague: async (data: LeagueJoinDtoT): Promise<EntryResponseDtoT> => {
+	joinLeague: async (data: LeagueJoinDtoT): Promise<JoinLeagueResponseDtoT> => {
 		const response = await httpClient.post(`${BASE_URL}/join`, data);
-		const validation = entryResponseDtoSchema.safeParse(response.data);
+		const validation = joinLeagueResponseDtoSchema.safeParse(response.data);
 		if (!validation.success) {
 			throw new Error("Invalid response from server");
 		}

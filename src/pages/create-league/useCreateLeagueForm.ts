@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useNavigate } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useCreateLeague } from "@modules/league/data-access/application/mutations/useCreateLeague";
 import { useGetAllTournaments } from "@modules/tournament/data-access/application/queries/useGetAllTournaments";
@@ -26,6 +27,7 @@ type CreateLeagueFormValues = z.input<typeof createLeagueSchema>;
 
 export function useCreateLeagueForm() {
 	const navigate = useNavigate();
+	const queryClient = useQueryClient();
 
 	const { data: tournaments, isFetching: isTournamentsLoading } =
 		useGetAllTournaments();
@@ -41,9 +43,14 @@ export function useCreateLeagueForm() {
 
 	const { createLeague, isPending, error } = useCreateLeague({
 		config: {
-			onSuccess: (league) => {
+			onSuccess: (response) => {
 				toast.success("League created successfully!");
-				navigate(`/your-leagues`);
+				queryClient.invalidateQueries({ queryKey: ["GET", "LEAGUES", "USER"] });
+				if (response.checkoutUrl) {
+					window.location.href = response.checkoutUrl;
+				} else {
+					navigate("/your-leagues");
+				}
 			},
 		},
 	});

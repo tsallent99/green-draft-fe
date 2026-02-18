@@ -1,4 +1,4 @@
-import { LeagueRepository, CreateLeagueDataT, JoinLeagueDataT } from '../../domain/repositories';
+import { LeagueRepository, CreateLeagueDataT, CreateLeagueResponseT, JoinLeagueDataT, JoinLeagueResponseT } from '../../domain/repositories';
 import { LeagueT, LeagueStatus } from '../../domain/entities';
 import { EntryT, PaymentStatus } from '@modules/entry/domain/entities';
 
@@ -34,7 +34,7 @@ let nextEntryId = 2;
 const currentUserId = 1;
 
 export class LeagueFakeAdapter implements LeagueRepository {
-  async createLeague(data: CreateLeagueDataT): Promise<LeagueT> {
+  async createLeague(data: CreateLeagueDataT): Promise<CreateLeagueResponseT> {
     const newLeague: LeagueT = {
       id: nextLeagueId++,
       name: data.name,
@@ -49,7 +49,7 @@ export class LeagueFakeAdapter implements LeagueRepository {
     };
 
     mockLeagues.push(newLeague);
-    return newLeague;
+    return { league: newLeague, checkoutUrl: null };
   }
 
   async getUserLeagues(): Promise<LeagueT[]> {
@@ -70,7 +70,7 @@ export class LeagueFakeAdapter implements LeagueRepository {
     return league;
   }
 
-  async joinLeague(data: JoinLeagueDataT): Promise<EntryT> {
+  async joinLeague(data: JoinLeagueDataT): Promise<JoinLeagueResponseT> {
     const league = mockLeagues.find((l) => l.invitationCode === data.invitationCode);
     if (!league) {
       throw new Error('Invalid invitation code');
@@ -94,7 +94,7 @@ export class LeagueFakeAdapter implements LeagueRepository {
     };
 
     mockEntries.push(newEntry);
-    return newEntry;
+    return { entry: newEntry, checkoutUrl: null };
   }
 
   async getLeagueEntries(leagueId: number): Promise<EntryT[]> {

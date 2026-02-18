@@ -1,16 +1,20 @@
-import { LeagueRepository, CreateLeagueDataT, JoinLeagueDataT } from '../../domain/repositories';
+import { LeagueRepository, CreateLeagueDataT, CreateLeagueResponseT, JoinLeagueDataT, JoinLeagueResponseT } from '../../domain/repositories';
 import { LeagueT } from '../../domain/entities';
 import { EntryT } from '@modules/entry/domain/entities';
 import { leagueApi } from './api';
 
 export class ApiLeagueAdapter implements LeagueRepository {
-  async createLeague(data: CreateLeagueDataT): Promise<LeagueT> {
-    return await leagueApi.createLeague({
+  async createLeague(data: CreateLeagueDataT): Promise<CreateLeagueResponseT> {
+    const response = await leagueApi.createLeague({
       name: data.name,
       tournamentId: data.tournamentId,
       entryFee: data.entryFee,
       maxParticipants: data.maxParticipants,
     });
+    return {
+      league: response.league,
+      checkoutUrl: response.checkoutUrl,
+    };
   }
 
   async getUserLeagues(): Promise<LeagueT[]> {
@@ -21,10 +25,14 @@ export class ApiLeagueAdapter implements LeagueRepository {
     return await leagueApi.getLeagueById(leagueId);
   }
 
-  async joinLeague(data: JoinLeagueDataT): Promise<EntryT> {
-    return await leagueApi.joinLeague({
+  async joinLeague(data: JoinLeagueDataT): Promise<JoinLeagueResponseT> {
+    const response = await leagueApi.joinLeague({
       invitationCode: data.invitationCode,
     });
+    return {
+      entry: response.entry,
+      checkoutUrl: response.checkoutUrl,
+    };
   }
 
   async getLeagueEntries(leagueId: number): Promise<EntryT[]> {

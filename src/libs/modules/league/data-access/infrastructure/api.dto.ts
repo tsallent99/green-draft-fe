@@ -27,6 +27,13 @@ export const leagueResponseDtoSchema = z.object({
 });
 export type LeagueResponseDtoT = z.infer<typeof leagueResponseDtoSchema>;
 
+// Create League Response DTO
+export const createLeagueResponseDtoSchema = z.object({
+  league: leagueResponseDtoSchema,
+  checkoutUrl: z.string().nullable(),
+});
+export type CreateLeagueResponseDtoT = z.infer<typeof createLeagueResponseDtoSchema>;
+
 // League Join DTO
 export const leagueJoinDtoSchema = z.object({
   invitationCode: z.string(),
@@ -44,3 +51,10 @@ export const entryResponseDtoSchema = z.object({
   updatedAt: dateBackendSchema,
 });
 export type EntryResponseDtoT = z.infer<typeof entryResponseDtoSchema>;
+
+// Join League Response DTO
+export const joinLeagueResponseDtoSchema = z.object({
+  entry: entryResponseDtoSchema,
+  checkoutUrl: z.string().nullable(),
+});
+export type JoinLeagueResponseDtoT = z.infer<typeof joinLeagueResponseDtoSchema>;

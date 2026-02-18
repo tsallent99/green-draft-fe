@@ -12,12 +12,14 @@ type UseMakeYourPicksFormOptions = {
   entryId: number;
   tournamentId: number;
   existingTeamId?: number;
+  onSuccess?: () => void;
 };
 
 export function useMakeYourPicksForm({
   entryId,
   tournamentId,
   existingTeamId,
+  onSuccess: onSuccessCallback,
 }: UseMakeYourPicksFormOptions) {
   const queryClient = useQueryClient();
 
@@ -40,6 +42,7 @@ export function useMakeYourPicksForm({
       onSuccess: () => {
         toast.success("Team created successfully!");
         invalidateTeam();
+        onSuccessCallback?.();
       },
     },
   });
@@ -49,6 +52,7 @@ export function useMakeYourPicksForm({
       onSuccess: () => {
         toast.success("Team updated successfully!");
         invalidateTeam();
+        onSuccessCallback?.();
       },
     },
   });
@@ -92,6 +96,18 @@ export function useMakeYourPicksForm({
     [activeSlotIndex]
   );
 
+  const removePick = useCallback((index: number) => {
+    setPicks((prev) => {
+      const next = [...prev];
+      next[index] = null;
+      return next;
+    });
+  }, []);
+
+  const initializePicks = useCallback((initialPicks: (PlayerWithOddsT | null)[]) => {
+    setPicks(initialPicks);
+  }, []);
+
   const openSlot = useCallback((index: number) => {
     setActiveSlotIndex(index);
     setSearchQuery("");
@@ -128,6 +144,8 @@ export function useMakeYourPicksForm({
     allSlotsFilled,
     canSubmit,
     selectPlayer,
+    removePick,
+    initializePicks,
     openSlot,
     closeSlot,
     onSubmit,

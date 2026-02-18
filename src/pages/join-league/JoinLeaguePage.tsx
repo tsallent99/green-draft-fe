@@ -11,9 +11,13 @@ export function JoinLeaguePage() {
 
 	const { joinLeague, isPending, error } = useJoinLeague({
 		config: {
-			onSuccess: () => {
+			onSuccess: (response) => {
 				toast.success("Joined league successfully!");
-				navigate("/your-leagues");
+				if (response.checkoutUrl) {
+					window.location.href = response.checkoutUrl;
+				} else {
+					navigate("/your-leagues");
+				}
 			},
 		},
 	});
